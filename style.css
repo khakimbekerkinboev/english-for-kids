@@ -3,13 +3,19 @@
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
+  color: #3d3d3d;
 }
 
 .wrapper {
   width: 100%;
-  min-height: 200vh;
   margin: 0rem auto;
 }
+
+/* 
+==============================
+header
+==============================
+*/
 
 .header {
   background-color: white;
@@ -27,14 +33,13 @@
   justify-content: space-between;
   align-items: center;
 }
-
 .header-center i {
   font-size: 2rem;
   cursor: pointer;
 }
 .title h1 {
-  font-size: 2rem;
-  color: #ffbf00;
+  font-size: 2.5rem;
+  color: #ffc000;
 }
 .switch-container {
   background-color: #ffc000;
@@ -51,7 +56,6 @@
   text-transform: uppercase;
   color: white;
 }
-
 .train {
   margin-left: auto;
   margin-right: 0.75rem;
@@ -62,7 +66,6 @@
   margin-left: 0.75rem;
   display: none;
 }
-
 .switch-btn {
   width: 2.4rem;
   height: 2.4rem;
@@ -77,4 +80,45 @@
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   transition: all 300ms linear;
+}
+
+/* 
+==============================
+categories
+==============================
+*/
+
+.categories {
+  width: 95%;
+  margin: 0 auto;
+  padding: 3rem 0;
+}
+.categories-title {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+}
+.categories-center {
+  display: grid;
+  grid-template-columns: repeat(4, calc(25% - 1.5rem));
+  gap: 2rem;
+  justify-content: space-between;
+}
+.category {
+  border-radius: 0.5rem;
+  border: 1px solid #c0c0c0;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: all 300ms linear;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.category:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+.category img {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.category h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
