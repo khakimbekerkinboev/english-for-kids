@@ -33,7 +33,7 @@ header
   justify-content: space-between;
   align-items: center;
 }
-.header-center i {
+.open-sidebar {
   font-size: 2rem;
   cursor: pointer;
 }
@@ -121,4 +121,66 @@ categories
 .category h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+}
+
+/* 
+==============================
+sidebar
+==============================
+*/
+
+.sidebar-background {
+  background: rgba(41, 41, 41, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+}
+
+.sidebar-background-hidden {
+  display: none;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  background-color: white;
+  width: 320px;
+  height: 100vh;
+  overflow-y: auto;
+  transition: all 300ms linear;
+}
+
+.sidebar-hidden {
+  transform: translateX(-100%);
+}
+
+.close-sidebar {
+  position: absolute;
+  top: 0.625rem;
+  right: 1rem;
+  font-size: 2rem;
+  line-height: 100%;
+  cursor: pointer;
+  color: red;
+}
+
+.sidebar-menu {
+  margin-top: 5rem;
+  margin-left: 3rem;
+  list-style-type: none;
+}
+
+.sidebar-menu li {
+  cursor: pointer;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  width: fit-content;
+}
+.sidebar-category {
+  margin-left: 1.5rem;
 }

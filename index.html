@@ -1,95 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>English for kids</title>
-    <link rel="stylesheet" href="./style.css" />
-    <script
-      src="https://kit.fontawesome.com/4809f3b02f.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="./script.js" defer></script>
-  </head>
-  <body>
-    <div class="wrapper">
-      <header class="header">
-        <div class="header-center">
-          <i class="fa-solid fa-bars"></i>
-          <div class="title">
-            <h1>English for Kids</h1>
-          </div>
-          <div class="switch-container">
-            <h3 class="play">play</h3>
-            <div class="switch-btn"></div>
-            <h3 class="train">train</h3>
-          </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English for kids</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://kit.fontawesome.com/4809f3b02f.js" crossorigin="anonymous"></script>
+  <script type="module" src="./script.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <div class="header-center">
+        <i class="fa-solid fa-bars open-sidebar"></i>
+        <div class="title">
+          <h1>English for Kids</h1>
         </div>
-      </header>
+        <div class="switch-container">
+          <h3 class="play">play</h3>
+          <div class="switch-btn"></div>
+          <h3 class="train">train</h3>
+        </div>
+      </div>
+    </header>
 
-      <section class="categories">
-        <h2 class="categories-title">Categories:</h2>
+    <div class="sidebar sidebar-hidden">
+      <ul class="sidebar-menu">
+        <!-- <li>Main page</li>
+        <li class="sidebar-category">Action (set A)</li>
+        <li class="sidebar-category">Action (set B)</li>
+        <li class="sidebar-category">Animal (set A)</li>
+        <li class="sidebar-category">Animal (set B)</li>
+        <li class="sidebar-category">Clothes</li>
+        <li class="sidebar-category">Emotions</li>
+        <li class="sidebar-category">Technology</li>
+        <li class="sidebar-category">Transportation</li>
+        <li>Statistics</li> -->
+      </ul>
+      <i class="fa-solid fa-xmark close-sidebar"></i>
+    </div>
+    <div class="sidebar-background sidebar-background-hidden">
+    </div>
 
-        <div class="categories-center">
+
+
+    <section class="categories">
+      <h2 class="categories-title">Categories:</h2>
+      <div class="categories-center">
         <!-- single card -->
         <div class="category">
           <img src="./assets/img/dance.jpg" alt="" />
-            <h3>Action (set A)</h3>
-            <p>8 cards</p>
+          <h3>Action (set A)</h3>
+          <p>8 cards</p>
         </div>
         <!-- end of single card -->
         <!-- single card -->
         <div class="category">
           <img src="./assets/img/run.jpg" alt="" />
-            <h3>Action (set B)</h2>
+          <h3>Action (set B)</h2>
             <p>8 cards</p>
         </div>
         <!-- end of single card -->
         <!-- single card -->
         <div class="category">
           <img src="./assets/img/dog.jpg" alt="" />
-            <h3>Animal (set A)</h3>
-            <p>8 cards</p>
+          <h3>Animal (set A)</h3>
+          <p>8 cards</p>
         </div>
         <!-- end of single card -->
         <!-- single card -->
         <div class="category">
           <img src="./assets/img/giraffe.jpg" alt="" />
-            <h3>Animal (set B)</h3>
-            <p>8 cards</p>
+          <h3>Animal (set B)</h3>
+          <p>8 cards</p>
         </div>
         <!-- end of single card -->
         <!-- single card -->
         <div class="category">
           <img src="./assets/img/shirt.jpg" alt="" />
-            <h3>Clothes</h3>
-            <p>8 cards</p>
+          <h3>Clothes</h3>
+          <p>8 cards</p>
         </div>
         <!-- end of single card -->
         <!-- single card -->
         <div class="category">
           <img src="./assets/img/smile.jpg" alt="" />
-            <h3>Emotions</h3>
-            <p>8 cards</p>
+          <h3>Emotions</h3>
+          <p>8 cards</p>
         </div>
         <!-- end of single card -->
         <!-- single card -->
         <div class="category">
           <img src="./assets/img/smartphone.jpg" alt="" />
-            <h3>Technology</h3>
-            <p>8 cards</p>
+          <h3>Technology</h3>
+          <p>8 cards</p>
         </div>
         <!-- end of single card -->
         <!-- single card -->
         <div class="category">
           <img src="./assets/img/car.jpg" alt="" />
-            <h3>Transportation</h3>
-            <p>8 cards</p>
+          <h3>Transportation</h3>
+          <p>8 cards</p>
         </div>
         <!-- end of single card -->
-        </div>
-      </section>
-    </div>
-  </body>
+      </div>
+    </section>
+  </div>
+</body>
+
 </html>
