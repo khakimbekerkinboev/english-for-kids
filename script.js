@@ -75,6 +75,12 @@ sidebarMenu.children[0].addEventListener('click', () => {
   closeSidebar()
   openCategoryPage()
 })
+//when the logo is clicked
+const title = document.querySelector('.title')
+title.addEventListener('click', () => {
+  fillMainPage()
+  openCategoryPage()
+})
 
 function fillMainPage() {
   pageTitle.innerHTML = 'Categories:'
@@ -145,7 +151,7 @@ function fillCategoryPage(categoryName) {
               <img src="./assets/${
                 cards[index + 1][randomCards[i]].image
               }" alt="">
-              <h3>${cards[index + 1][randomCards[i]].word}</h3>
+              <h3 class = 'word'>${cards[index + 1][randomCards[i]].word}</h3>
               <i class="fa-solid fa-language"></i>
             </div>
             <div class="hidden-card">
@@ -165,4 +171,19 @@ function fillCategoryPage(categoryName) {
         <!-- end of single card -->
     `
   }
+
+  //play sound
+  playSound()
+}
+
+//play sound function
+function playSound() {
+  const cards = document.querySelectorAll('.single-card')
+  Array.from(cards).forEach((card) => {
+    card.addEventListener('click', (clickedCard) => {
+      const word = clickedCard.currentTarget.querySelector('.word').innerHTML
+      const sound = new Audio(`./assets/audio/${word}.mp3`)
+      sound.play()
+    })
+  })
 }
