@@ -1,4 +1,4 @@
-import cards from './assets/cards.js'
+import cards from '../assets/cards.js'
 
 ////////////////////////
 //Sidebar
