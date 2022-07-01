@@ -3,7 +3,7 @@ import cards from './assets/cards.js'
 ////////////////////////
 //Sidebar
 ////////////////////////
-
+const burgerBtn = document.querySelector('.burger')
 const openSidebarBtn = document.querySelector('.open-sidebar')
 const closeSidebarBtn = document.querySelector('.close-sidebar')
 const sidebar = document.querySelector('.sidebar')
@@ -18,12 +18,26 @@ for (let i = 0; i < cards[0].length; i++) {
 sidebarMenu.innerHTML += `<li>Statistics</li>`
 const sidebarCategories = document.querySelectorAll('.sidebar-category')
 
-//open
-openSidebarBtn.addEventListener('click', () => {
+//open and close sidebar
+burgerBtn.addEventListener('click', () => {
+  if (sidebar.classList.contains('sidebar-hidden')) {
+    openSidebar()
+  } else {
+    closeSidebar()
+  }
+})
+
+sidebarBackground.addEventListener('click', () => {
+  closeSidebar()
+})
+
+//open function
+function openSidebar() {
+  burgerBtn.style.transform = 'rotate(90deg)'
   sidebar.classList.remove('sidebar-hidden')
   sidebarBackground.classList.remove('sidebar-background-hidden')
   disableScrolling()
-})
+}
 
 function disableScrolling() {
   var x = window.scrollX
@@ -33,20 +47,13 @@ function disableScrolling() {
   }
 }
 
-//close
+//close function
 function closeSidebar() {
+  burgerBtn.style.transform = 'rotate(0deg)'
   sidebar.classList.add('sidebar-hidden')
   sidebarBackground.classList.add('sidebar-background-hidden')
   enableScrolling()
 }
-
-closeSidebarBtn.addEventListener('click', () => {
-  closeSidebar()
-})
-
-sidebarBackground.addEventListener('click', () => {
-  closeSidebar()
-})
 
 function enableScrolling() {
   window.onscroll = function () {}
@@ -64,7 +71,7 @@ const pageCenter = document.querySelector('.page-center')
 //
 
 //when the page is loaded
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
   fillMainPage()
   openCategoryPage()
 })
@@ -139,7 +146,7 @@ function fillCategoryPage(categoryName) {
   pageCenter.innerHTML = ''
   //index
   const index = cards[0].indexOf(categoryName)
-  //randomize
+  //randomize cards
   const randomCards = arrayRandom(cards[index + 1].length)
 
   for (let i = 0; i < cards[index + 1].length; i++) {
@@ -152,7 +159,7 @@ function fillCategoryPage(categoryName) {
                 cards[index + 1][randomCards[i]].image
               }" alt="">
               <h3 class = 'word'>${cards[index + 1][randomCards[i]].word}</h3>
-              <i class="fa-solid fa-language"></i>
+              <i class="fa-solid fa-rotate translate-btn"></i>
             </div>
             <div class="hidden-card">
               <img src="./assets/${
@@ -174,16 +181,43 @@ function fillCategoryPage(categoryName) {
 
   //play sound
   playSound()
+
+  //flip card
+  flipCard()
 }
 
 //play sound function
 function playSound() {
-  const cards = document.querySelectorAll('.single-card')
-  Array.from(cards).forEach((card) => {
-    card.addEventListener('click', (clickedCard) => {
-      const word = clickedCard.currentTarget.querySelector('.word').innerHTML
-      const sound = new Audio(`./assets/audio/${word}.mp3`)
-      sound.play()
+  const cardFronts = document.querySelectorAll('.single-card-front')
+  Array.from(cardFronts).forEach((cardFront) => {
+    cardFront.addEventListener('click', (clickedFront) => {
+      if (!clickedFront.target.classList.contains('translate-btn')) {
+        const word = clickedFront.currentTarget.querySelector('.word').innerHTML
+        const sound = new Audio(`./assets/audio/${word}.mp3`)
+        sound.play()
+      }
+    })
+  })
+}
+
+//flip the card
+function flipCard() {
+  const translateBtns = document.querySelectorAll('.translate-btn')
+  Array.from(translateBtns).forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const singleCardInner = btn.parentElement.parentElement
+      //rotate button
+      btn.style.transform = 'rotate(180deg)'
+
+      //flip the card
+      singleCardInner.style.transform = 'rotateY(180deg)'
+
+      //flip the card back
+      singleCardInner.addEventListener('mouseleave', () => {
+        singleCardInner.style.transform = 'rotateY(0deg)'
+        //rotate button back
+        btn.style.transform = 'rotate(0deg)'
+      })
     })
   })
 }

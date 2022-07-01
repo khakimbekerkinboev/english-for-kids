@@ -6,6 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>English for kids</title>
+  <link rel="icon" href="data:,">
+  <!--to stop the "favicon" bug with the "play()" function-->
   <link rel="stylesheet" href="./style.css" />
   <script src="https://kit.fontawesome.com/4809f3b02f.js" crossorigin="anonymous"></script>
   <script type="module" src="./script.js"></script>
@@ -15,7 +17,7 @@
   <div class="wrapper">
     <header class="header">
       <div class="header-center">
-        <i class="fa-solid fa-bars open-sidebar"></i>
+        <i class="fa-solid fa-bars burger hide"></i>
         <div class="title">
           <h1>English for Kids</h1>
         </div>
@@ -25,15 +27,16 @@
           <h3 class="train">train</h3>
         </div>
       </div>
+
+      <div class="sidebar sidebar-hidden">
+        <ul class="sidebar-menu">
+        </ul>
+      </div>
+      <div class="sidebar-background sidebar-background-hidden">
+      </div>
     </header>
 
-    <div class="sidebar sidebar-hidden">
-      <ul class="sidebar-menu">
-      </ul>
-      <i class="fa-solid fa-xmark close-sidebar"></i>
-    </div>
-    <div class="sidebar-background sidebar-background-hidden">
-    </div>
+
 
     <section class="page">
       <h2 class="page-title"></h2>

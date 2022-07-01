@@ -33,10 +33,12 @@ header
   justify-content: space-between;
   align-items: center;
 }
-.open-sidebar {
+.burger {
+  position: relative;
+  z-index: 4;
   font-size: 2rem;
   cursor: pointer;
-  z-index: 4;
+  transition: all 300ms linear;
 }
 .title {
   cursor: pointer;
@@ -84,6 +86,68 @@ header
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   transition: all 300ms linear;
+}
+
+/* 
+==============================
+sidebar
+==============================
+*/
+
+.sidebar-background {
+  background: rgba(41, 41, 41, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+}
+
+.sidebar-background-hidden {
+  display: none;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  background-color: white;
+  width: 320px;
+  height: 100vh;
+  overflow-y: auto;
+  transition: all 300ms ease-in-out;
+}
+
+.sidebar-hidden {
+  transform: translateX(-100%);
+}
+
+.close-sidebar {
+  position: absolute;
+  top: 0.625rem;
+  right: 1rem;
+  font-size: 2rem;
+  line-height: 100%;
+  cursor: pointer;
+  color: red;
+}
+
+.sidebar-menu {
+  margin-top: 5.8125rem;
+  margin-left: 2.5vw;
+  list-style-type: none;
+}
+
+.sidebar-menu li {
+  cursor: pointer;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  width: fit-content;
+}
+.sidebar-category {
+  margin-left: 1.5rem;
 }
 
 /* 
@@ -144,11 +208,8 @@ Category page
   perspective: 1000px;
   cursor: pointer;
   border-radius: 0.5rem;
+  perspective: 1000px;
 }
-
-/* .single-card:hover .single-card-inner {
-  transform: rotateY(180deg);
-} */
 
 .single-card-inner {
   position: relative;
@@ -161,6 +222,10 @@ Category page
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
+.flip-card {
+  transform: rotateY(180deg);
+}
+
 .single-card-front,
 .single-card-back {
   position: absolute;
@@ -168,14 +233,16 @@ Category page
   top: 0;
   width: 100%;
   height: 100%;
-  -webkit-backface-visibility: hidden; /* Safari */
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   padding: 0.5rem;
   border-radius: 0.5rem;
+  will-change: transform;
 }
 
 .single-card-back {
   transform: rotateY(180deg);
+  cursor: auto;
 }
 
 .single-card-front img {
@@ -199,13 +266,14 @@ Category page
 }
 .single-card-front i {
   position: absolute;
-  bottom: 0.5rem;
-  right: 0.5rem;
-  font-size: 1.5rem;
+  bottom: 0.75rem;
+  right: 1rem;
+  font-size: 1.8rem;
+  transition: all 0.7s linear;
+  will-change: transform;
 }
 
 /* hidden card is added to find the current height of each card*/
-
 .hidden-card {
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -219,66 +287,4 @@ Category page
   font-size: 1.5rem;
   text-transform: capitalize;
   margin-bottom: 1rem;
-}
-
-/* 
-==============================
-sidebar
-==============================
-*/
-
-.sidebar-background {
-  background: rgba(41, 41, 41, 0.6);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2;
-}
-
-.sidebar-background-hidden {
-  display: none;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  background-color: white;
-  width: 320px;
-  height: 100vh;
-  overflow-y: auto;
-  transition: all 300ms ease-in-out;
-}
-
-.sidebar-hidden {
-  transform: translateX(-100%);
-}
-
-.close-sidebar {
-  position: absolute;
-  top: 0.625rem;
-  right: 1rem;
-  font-size: 2rem;
-  line-height: 100%;
-  cursor: pointer;
-  color: red;
-}
-
-.sidebar-menu {
-  margin-top: 5rem;
-  margin-left: 3rem;
-  list-style-type: none;
-}
-
-.sidebar-menu li {
-  cursor: pointer;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  width: fit-content;
-}
-.sidebar-category {
-  margin-left: 1.5rem;
 }
