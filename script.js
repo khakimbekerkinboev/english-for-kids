@@ -4,8 +4,6 @@ import cards from './assets/cards.js'
 //Sidebar
 ////////////////////////
 const burgerBtn = document.querySelector('.burger')
-const openSidebarBtn = document.querySelector('.open-sidebar')
-const closeSidebarBtn = document.querySelector('.close-sidebar')
 const sidebar = document.querySelector('.sidebar')
 const sidebarMenu = document.querySelector('.sidebar-menu')
 const sidebarBackground = document.querySelector('.sidebar-background')
@@ -17,6 +15,23 @@ for (let i = 0; i < cards[0].length; i++) {
 }
 sidebarMenu.innerHTML += `<li>Statistics</li>`
 const sidebarCategories = document.querySelectorAll('.sidebar-category')
+const menuItems = sidebarMenu.querySelectorAll('li')
+
+//activate main page in sidebar when the page loaded
+menuItems[0].classList.add('menu-active')
+
+//active menu item when clicked
+menuItems.forEach((e) => {
+  e.addEventListener('click', (clicked) => {
+    //clean other items
+    menuItems.forEach((each) => {
+      each.classList.remove('menu-active')
+    })
+
+    //activate clicked item
+    clicked.currentTarget.classList.add('menu-active')
+  })
+})
 
 //open and close sidebar
 burgerBtn.addEventListener('click', () => {
@@ -66,9 +81,7 @@ function enableScrolling() {
 const pageTitle = document.querySelector('.page-title')
 const pageCenter = document.querySelector('.page-center')
 
-//
-//main page
-//
+//////////////////main page//////////////////
 
 //when the page is loaded
 window.addEventListener('DOMContentLoaded', () => {
@@ -85,6 +98,13 @@ sidebarMenu.children[0].addEventListener('click', () => {
 //when the logo is clicked
 const title = document.querySelector('.title')
 title.addEventListener('click', () => {
+  //clean other items
+  menuItems.forEach((each) => {
+    each.classList.remove('menu-active')
+  })
+
+  //activate main page
+  menuItems[0].classList.add('menu-active')
   fillMainPage()
   openCategoryPage()
 })
@@ -104,9 +124,7 @@ function fillMainPage() {
   }
 }
 
-//
-//category page
-//
+//////////////////category page//////////////////
 
 //when the category in the sidebar is clicked
 Array.from(sidebarCategories).forEach((e) => {

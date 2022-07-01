@@ -21,7 +21,7 @@ header
   background-color: white;
   width: 100%;
   padding: 1.5rem 0;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: rgb(240 241 242) 0px 2px 8px;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -145,9 +145,19 @@ sidebar
   margin-bottom: 1rem;
   font-size: 1.5rem;
   width: fit-content;
+  transition: all 200ms linear;
 }
+
+.sidebar-menu li:hover {
+  color: #ffc000;
+}
+
+.menu-active {
+  color: #ffc000;
+}
+
 .sidebar-category {
-  margin-left: 1.5rem;
+  margin-left: 1rem;
 }
 
 /* 
