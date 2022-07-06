@@ -1,33 +1,497 @@
+import cards from '../assets/cards.js'
+let currentMode = 'train'
+let currentPage
+
+////////////////////////
+//Sidebar
+////////////////////////
+const burgerBtn = document.querySelector('.burger')
+const sidebar = document.querySelector('.sidebar')
+const sidebarMenu = document.querySelector('.sidebar-menu')
+const sidebarBackground = document.querySelector('.sidebar-background')
+
+//fill the sidebar
+sidebarMenu.innerHTML = `<li>Main</li>`
+for (let i = 0; i < cards[0].length; i++) {
+  sidebarMenu.innerHTML += `<li class="sidebar-category">${cards[0][i]}</li>`
+}
+sidebarMenu.innerHTML += `<li>Statistics</li>`
+const sidebarCategories = document.querySelectorAll('.sidebar-category')
+const menuItems = sidebarMenu.querySelectorAll('li')
+
+//activate main page in sidebar when the page loaded
+menuItems[0].classList.add('menu-active')
+
+//active menu item when clicked in sidebar
+menuItems.forEach((e) => {
+  e.addEventListener('click', (clicked) => {
+    //clean other items
+    menuItems.forEach((each) => {
+      each.classList.remove('menu-active')
+    })
+    //activate clicked item
+    clicked.currentTarget.classList.add('menu-active')
+  })
+})
+
+//active menu item when clicked in main page
+function labelSidebarCategory() {
+  const mainPageCategories = document.querySelectorAll('.category')
+  mainPageCategories.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      const clickedCategoryName = e.currentTarget.children[1].innerHTML
+      //clean other items
+      menuItems.forEach((e) => {
+        e.classList.remove('menu-active')
+        if (e.innerHTML == clickedCategoryName) {
+          e.classList.add('menu-active')
+        }
+      })
+    })
+  })
+}
+
+//open and close sidebar
+burgerBtn.addEventListener('click', () => {
+  if (sidebar.classList.contains('sidebar-hidden')) {
+    openSidebar()
+  } else {
+    closeSidebar()
+  }
+})
+
+sidebarBackground.addEventListener('click', () => {
+  closeSidebar()
+})
+
+//open function
+function openSidebar() {
+  burgerBtn.style.transform = 'rotate(90deg)'
+  sidebar.classList.remove('sidebar-hidden')
+  sidebarBackground.classList.remove('sidebar-background-hidden')
+  disableScrolling()
+}
+
+function disableScrolling() {
+  var x = window.scrollX
+  var y = window.scrollY
+  window.onscroll = function () {
+    window.scrollTo(x, y)
+  }
+}
+
+//close function
+function closeSidebar() {
+  burgerBtn.style.transform = 'rotate(0deg)'
+  sidebar.classList.add('sidebar-hidden')
+  sidebarBackground.classList.add('sidebar-background-hidden')
+  enableScrolling()
+}
+
+function enableScrolling() {
+  window.onscroll = function () {}
+}
+
+////////////////////////
+//Pages
+////////////////////////
+const page = document.querySelector('.page')
+const pageTitle = document.querySelector('.page-title')
+const pageCenter = document.querySelector('.page-center')
+
+//////////////////main page//////////////////
+
+//when the page is loaded
+window.addEventListener('DOMContentLoaded', () => {
+  fillMainPage()
+  openCategoryPage()
+  labelSidebarCategory()
+})
+
+//the Main page is clicked in the sidebar
+sidebarMenu.children[0].addEventListener('click', () => {
+  fillMainPage()
+  closeSidebar()
+  openCategoryPage()
+  labelSidebarCategory()
+})
+//when the logo is clicked
+const logo = document.querySelector('.logo')
+logo.addEventListener('click', () => {
+  //clean other items
+  menuItems.forEach((each) => {
+    each.classList.remove('menu-active')
+  })
+
+  //activate main page
+  menuItems[0].classList.add('menu-active')
+  fillMainPage()
+  openCategoryPage()
+  labelSidebarCategory()
+})
+
+function fillMainPage() {
+  //change current page to main
+  currentPage = 'main'
+  //change title
+  pageTitle.innerHTML = 'Categories:'
+  //empty the secion
+  pageCenter.innerHTML = ''
+  //move to the main page in play mode
+  nth = 0
+  randomIndexes = undefined
+  if (currentMode == 'play') startBtn.classList.add('hidden')
+  if (currentMode == 'play' && document.querySelector('.rotate-btn') !== null) {
+    document.querySelector('.rotate-btn').remove()
+  }
+  gameStatus.innerHTML = ''
+  //fill
+  for (let i = 0; i < cards[0].length; i++) {
+    pageCenter.innerHTML += `
+        <!-- single card -->
+        <div class="category">
+          <img src="./assets/${cards[i + 1][0].image}" alt="" />
+          <h3>${cards[0][i]}</h3>
+          <p><i class="fa-regular fa-images"></i> ${cards[i + 1].length}</p>
+        </div>
+        <!-- end of single card -->`
+  }
+}
+
+//////////////////category page//////////////////
+
+//when the category in the sidebar is clicked
+Array.from(sidebarCategories).forEach((e) => {
+  e.addEventListener('click', () => {
+    fillCategoryPage(e.innerHTML)
+    closeSidebar()
+  })
+})
+
+//when the category card in the main page is clicked
+function openCategoryPage() {
+  const mainPageCategories = document.querySelectorAll('.category')
+  mainPageCategories.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      const clickedCategoryName = e.currentTarget.children[1].innerHTML
+      fillCategoryPage(clickedCategoryName)
+    })
+  })
+}
+
+//randomize indexes of any array by length
+function arrayRandom(length) {
+  let arr = []
+  while (arr.length < length) {
+    const newNumber = Math.floor(Math.random() * length)
+    if (!arr.includes(newNumber)) {
+      arr.push(newNumber)
+    }
+  }
+  return arr
+}
+
+function fillCategoryPage(categoryName) {
+  //change page
+  currentPage = categoryName
+  //change title
+  pageTitle.innerHTML = categoryName
+  //empty the section
+  pageCenter.innerHTML = ''
+  //index
+  const index = cards[0].indexOf(categoryName)
+  //randomize cards
+  const randomCards = arrayRandom(cards[index + 1].length)
+  //move to another category page in play mode
+  nth = 0
+  randomIndexes = undefined
+  if (currentMode == 'play') startBtn.classList.remove('hidden')
+  if (currentMode == 'play' && document.querySelector('.rotate-btn') !== null) {
+    document.querySelector('.rotate-btn').remove()
+  }
+  gameStatus.innerHTML = ''
+  //fill
+  for (let i = 0; i < cards[index + 1].length; i++) {
+    if (currentMode == 'train') {
+      pageCenter.innerHTML += `
+    <!-- single card -->
+        <div class="single-card">
+          <div class="single-card-inner">
+            <div class="single-card-front">
+              <img src="./assets/${
+                cards[index + 1][randomCards[i]].image
+              }" alt="">
+              <h3 class = 'word'>${cards[index + 1][randomCards[i]].word}</h3>
+              <i class="fa-solid fa-rotate translate-btn"></i>
+            </div>
+            <div class="hidden-card">
+              <img src="./assets/${
+                cards[index + 1][randomCards[i]].image
+              }" alt="">
+              <h3>${cards[index + 1][randomCards[i]].word}</h3>
+            </div>
+            <div class="single-card-back">
+              <img src="./assets/${
+                cards[index + 1][randomCards[i]].image
+              }" alt="">
+              <h3>${cards[index + 1][randomCards[i]].translation}</h3>
+            </div>
+          </div>
+        </div>
+        <!-- end of single card -->
+    `
+    } else if (currentMode == 'play') {
+      pageCenter.innerHTML += `
+        <!-- play card -->
+        <div class="play-card">
+              <img src="./assets/${
+                cards[index + 1][randomCards[i]].image
+              }" alt="">  
+              <h3>${cards[index + 1][randomCards[i]].word}</h3>   
+        </div>
+        <!-- end of play card -->
+    `
+    }
+  }
+  //play sound
+  playSound()
+  //flip card
+  flipCard()
+}
+
+//play sound function
+function playSound() {
+  const cardFronts = document.querySelectorAll('.single-card-front')
+  Array.from(cardFronts).forEach((cardFront) => {
+    cardFront.addEventListener('click', (clickedFront) => {
+      if (!clickedFront.target.classList.contains('translate-btn')) {
+        const word = clickedFront.currentTarget.querySelector('.word').innerHTML
+        const sound = new Audio(`./assets/audio/${word}.mp3`)
+        sound.play()
+      }
+    })
+  })
+}
+
+//flip the card
+function flipCard() {
+  const translateBtns = document.querySelectorAll('.translate-btn')
+  Array.from(translateBtns).forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const singleCardInner = btn.parentElement.parentElement
+      //rotate button
+      btn.style.transform = 'rotate(180deg)'
+
+      //flip the card
+      singleCardInner.style.transform = 'rotateY(180deg)'
+
+      //flip the card back
+      singleCardInner.addEventListener('mouseleave', () => {
+        singleCardInner.style.transform = 'rotateY(0deg)'
+        //rotate button back
+        btn.style.transform = 'rotate(0deg)'
+      })
+    })
+  })
+}
+
+////////////////////////
+//Switch button
+////////////////////////
+
+//button
 const switchContainer = document.querySelector('.switch-container')
 const play = switchContainer.children[0]
 const switchBtn = document.querySelector('.switch-btn')
 const train = switchContainer.children[2]
+const startBtn = document.querySelector('.start-btn')
+const gameStatus = document.querySelector('.game-status')
 
 //click the switch button
 switchBtn.addEventListener('click', () => {
-  if (switchBtn.classList.contains('train')) {
-    switchPlay()
-  } else if (switchBtn.classList.contains('play')) {
-    switchTrain()
+  if (currentMode == 'train') {
+    switchStyleToPlay()
+    currentMode = 'play'
+    if (currentPage !== 'main') fillCategoryPage(currentPage)
+  } else if (currentMode == 'play') {
+    switchStyleToTrain()
+    currentMode = 'train'
+    if (currentPage !== 'main') fillCategoryPage(currentPage)
   }
 })
 
-//button switch to play
-function switchPlay() {
-  switchBtn.classList.remove('train')
-  switchBtn.classList.add('play')
-  switchBtn.classList.add('switch-btn-active')
-  play.classList.remove('mode-inactive')
-  train.classList.add('mode-inactive')
+//change style to play
+function switchStyleToPlay() {
+  switchBtn.classList.add('switch-btn-moves-right')
+  play.classList.remove('hidden')
+  train.classList.add('hidden')
   switchContainer.style.backgroundColor = '#5BC236'
+  if (currentPage !== 'main') startBtn.classList.remove('hidden')
 }
 
-//button switch to train
-function switchTrain() {
-  switchBtn.classList.remove('play')
-  switchBtn.classList.remove('switch-btn-active')
-  switchBtn.classList.add('train')
-  play.classList.add('mode-inactive')
-  train.classList.remove('mode-inactive')
+//change style to train
+function switchStyleToTrain() {
+  switchBtn.classList.remove('switch-btn-moves-right')
+  play.classList.add('hidden')
+  train.classList.remove('hidden')
   switchContainer.style.backgroundColor = '#ffc000'
+  startBtn.classList.add('hidden')
+  if (document.querySelector('.rotate-btn') !== null) {
+    document.querySelector('.rotate-btn').remove()
+  }
+  gameStatus.innerHTML = ''
+}
+
+/////////////////////////////////////
+//After the "start" button is clicked
+/////////////////////////////////////
+let nth = 0
+let randomIndexes
+
+startBtn.addEventListener('click', () => {
+  //all cards in the category
+  const currentCategory = cards[cards[0].indexOf(currentPage) + 1]
+
+  //randomize card order
+  if (typeof randomIndexes == 'undefined') {
+    randomIndexes = arrayRandom(cards[cards[0].indexOf(currentPage) + 1].length)
+  }
+
+  //play sound
+  let currentCard = currentCategory[randomIndexes[nth]]
+  let sound = new Audio(`./assets/${currentCard.audioSrc}`)
+  sound.play()
+
+  //change "start" button to "repeat" icon
+  startBtn.classList.add('hidden')
+
+  //create
+  const rotateBtn = document.createElement('button')
+  rotateBtn.classList.add('rotate-btn')
+  rotateBtn.innerHTML = `<i class="fa-solid fa-rotate-right"></i>`
+  page.append(rotateBtn)
+
+  //assign
+  rotateBtn.addEventListener('click', () => {
+    sound.play()
+  })
+  rotateBtn.addEventListener('mousedown', () => {
+    rotateBtn.classList.add('rotate-icon')
+  })
+  rotateBtn.addEventListener('mouseup', () => {
+    rotateBtn.classList.remove('rotate-icon')
+  })
+
+  //click play card
+  const playCards = document.querySelectorAll('.play-card')
+  playCards.forEach((playCard) => {
+    playCard.addEventListener('click', (e) => {
+      const clickedCard = e.currentTarget
+      const clickedWord = clickedCard.children[1].innerHTML
+
+      if (!clickedCard.classList.contains('play-card-inactive')) {
+        if (clickedWord == currentCard.word) {
+          //make the card inactive
+          clickedCard.classList.add('play-card-inactive')
+
+          //add the "correct" icon
+          addIcon('correct')
+
+          //play the "correct" sound
+          new Audio('./assets/audio/correct.mp3').play()
+
+          //next card
+          nth++
+
+          //when the game is over
+          if (nth == currentCategory.length) {
+            //select
+            const numOfMistakes = gameStatus.querySelectorAll('.wrong').length
+            const successSound = new Audio('./assets/audio/success.mp3')
+            const failureSound = new Audio('./assets/audio/failure.mp3')
+            const gameOverWindow = document.querySelector('.game-over-window')
+            const successWindow = document.querySelector('.success-window')
+            const failureWindow = document.querySelector('.failure-window')
+            const mistakes = document.querySelector('.mistakes')
+
+            if (numOfMistakes == 0) {
+              //show "success" window
+              gameOverWindow.classList.remove('hidden')
+              successWindow.classList.remove('hidden')
+
+              //play "success" sound
+              successSound.play()
+
+              //disable scrolling
+              disableScrolling()
+
+              //wait for 3 secs
+              setTimeout(() => {
+                //open main page
+                enableScrolling()
+                fillMainPage()
+                openCategoryPage()
+                labelSidebarCategory()
+                switchStyleToTrain()
+                currentMode = 'train'
+
+                //hide window
+                gameOverWindow.classList.add('hidden')
+                successWindow.classList.add('hidden')
+              }, 3000)
+            } else {
+              //show "failure" window
+              gameOverWindow.classList.remove('hidden')
+              failureWindow.classList.remove('hidden')
+
+              //insert the number of mistakes
+              mistakes.innerHTML = numOfMistakes
+
+              //play "failure" sound
+              failureSound.play()
+
+              //disable scrolling
+              disableScrolling()
+
+              //wait for 3 secs
+              setTimeout(() => {
+                //open main page
+                enableScrolling()
+                fillMainPage()
+                openCategoryPage()
+                labelSidebarCategory()
+                switchStyleToTrain()
+                currentMode = 'train'
+
+                //hide window
+                gameOverWindow.classList.add('hidden')
+                failureWindow.classList.add('hidden')
+              }, 3000)
+            }
+          }
+
+          //play the next sound after 2.5 seconds
+          if (nth < currentCategory.length) {
+            currentCard = currentCategory[randomIndexes[nth]]
+            sound = new Audio(`./assets/${currentCard.audioSrc}`)
+            setTimeout(() => {
+              if (currentMode == 'play') sound.play()
+            }, 2500)
+          }
+        } else {
+          //"error" sound
+          new Audio('./assets/audio/error.mp3').play()
+          //add the "wrong" icon
+          addIcon('wrong')
+        }
+      }
+    })
+  })
+})
+
+//add/show a new icon according to the answer status
+function addIcon(status) {
+  const newIcon = document.createElement('i')
+  newIcon.classList.add('fa-solid', 'fa-star', status)
+  gameStatus.prepend(newIcon)
 }

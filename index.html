@@ -10,22 +10,22 @@
   <!--to stop the "favicon" bug with the "play()" function-->
   <link rel="stylesheet" href="./style.css" />
   <script src="https://kit.fontawesome.com/4809f3b02f.js" crossorigin="anonymous"></script>
+  <!-- scripts -->
   <script type="module" src="./scripts/main.js" defer></script>
-  <script type="module" src="./scripts/train-mode.js" defer></script>
-  <script type="module" src="./scripts/play-mode.js" defer></script>
 </head>
 
 <body>
   <div class="wrapper">
+    <!-- header -->
     <header class="header">
       <div class="header-center">
         <i class="fa-solid fa-bars burger hide"></i>
-        <div class="title">
+        <div class="logo">
           <h1>English for Kids</h1>
         </div>
         <div class="switch-container">
-          <h3 class="play mode-inactive">play</h3>
-          <div class="switch-btn train"></div>
+          <h3 class="play hidden">play</h3>
+          <div class="switch-btn"></div>
           <h3 class="train">train</h3>
         </div>
       </div>
@@ -37,15 +37,36 @@
       <div class="sidebar-background sidebar-background-hidden">
       </div>
     </header>
+    <!-- end of header -->
 
-
-
+    <!-- page -->
     <section class="page">
-      <h2 class="page-title"></h2>
+      <div class="page-top">
+        <h2 class="page-title"></h2>
+        <div class="game-status">
+        </div>
+      </div>
       <div class="page-center">
       </div>
+      <button class="start-btn hidden">start</button>
     </section>
+    <!-- end of page -->
 
+    <!-- game over -->
+    <div class="game-over-window hidden">
+      <!-- success -->
+      <div class="success-window hidden">
+        <img src="./assets/img/success.png" alt="">
+      </div>
+      <!-- failure -->
+      <div class="failure-window hidden">
+        <div class="failure-window-center">
+          <img src="./assets/img/failure.png" alt="">
+          <h1>Mistakes: <span class="mistakes"></span></h1>
+        </div>
+      </div>
+    </div>
+    <!-- end of game over -->
   </div>
 </body>
 
