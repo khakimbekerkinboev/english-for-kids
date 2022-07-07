@@ -267,11 +267,22 @@ function playSound() {
   const cardFronts = document.querySelectorAll('.single-card-front')
   Array.from(cardFronts).forEach((cardFront) => {
     cardFront.addEventListener('click', (clickedFront) => {
+      const word = clickedFront.currentTarget.querySelector('.word').innerHTML
+      const sound = new Audio(`./assets/audio/${word}.mp3`)
+      let timesClicked
+      if (localStorage.getItem(`${word}-clicked`) === null) {
+        timesClicked = 0
+      } else {
+        timesClicked = Number(localStorage.getItem(`${word}-clicked`))
+      }
+
+      //play sound
       if (!clickedFront.target.classList.contains('translate-btn')) {
-        const word = clickedFront.currentTarget.querySelector('.word').innerHTML
-        const sound = new Audio(`./assets/audio/${word}.mp3`)
         sound.play()
       }
+
+      //update item clicks in localStorage
+      localStorage.setItem(`${word}-clicked`, `${timesClicked + 1}`)
     })
   })
 }
@@ -362,6 +373,7 @@ startBtn.addEventListener('click', () => {
 
   //play sound
   let currentCard = currentCategory[randomIndexes[nth]]
+
   let sound = new Audio(`./assets/${currentCard.audioSrc}`)
   sound.play()
 
@@ -392,8 +404,37 @@ startBtn.addEventListener('click', () => {
       const clickedCard = e.currentTarget
       const clickedWord = clickedCard.children[1].innerHTML
 
+      //count guess
+      let timesGuessed
+      if (localStorage.getItem(`${currentCard.word}-guessed`) === null) {
+        timesGuessed = 0
+      } else {
+        timesGuessed = Number(
+          localStorage.getItem(`${currentCard.word}-guessed`)
+        )
+      }
+      localStorage.setItem(`${currentCard.word}-guessed`, `${timesGuessed + 1}`)
+
+      //check correct/wrong
       if (!clickedCard.classList.contains('play-card-inactive')) {
         if (clickedWord == currentCard.word) {
+          //count guessed correctly
+          let timesGuessedCorrectly
+          if (
+            localStorage.getItem(`${currentCard.word}-guessed-correctly`) ===
+            null
+          ) {
+            timesGuessedCorrectly = 0
+          } else {
+            timesGuessedCorrectly = Number(
+              localStorage.getItem(`${currentCard.word}-guessed-correctly`)
+            )
+          }
+          localStorage.setItem(
+            `${currentCard.word}-guessed-correctly`,
+            `${timesGuessedCorrectly + 1}`
+          )
+
           //make the card inactive
           clickedCard.classList.add('play-card-inactive')
 
@@ -486,6 +527,21 @@ startBtn.addEventListener('click', () => {
           new Audio('./assets/audio/error.mp3').play()
           //add the "wrong" icon
           addIcon('wrong')
+          //count guessed wrong
+          let timesGuessedWrong
+          if (
+            localStorage.getItem(`${currentCard.word}-guessed-wrong`) === null
+          ) {
+            timesGuessedWrong = 0
+          } else {
+            timesGuessedWrong = Number(
+              localStorage.getItem(`${currentCard.word}-guessed-wrong`)
+            )
+          }
+          localStorage.setItem(
+            `${currentCard.word}-guessed-wrong`,
+            `${timesGuessedWrong + 1}`
+          )
         }
       }
     })
@@ -504,18 +560,83 @@ function addIcon(status) {
 /////////////////////////////////////
 const statisticsSidebar = Array.from(menuItems)[menuItems.length - 1]
 const statistics = document.querySelector('.statistics')
+const tableBody = document.querySelector('.table-body')
 
 function leaveStatistics() {
   if (!statistics.classList.contains('hidden')) {
     page.classList.remove('hidden')
     statistics.classList.add('hidden')
+    tableBody.innerHTML = ''
     switchContainer.classList.remove('switch-container-hidden')
   }
 }
 
 statisticsSidebar.addEventListener('click', () => {
+  //open "statistics" page
   page.classList.add('hidden')
   statistics.classList.remove('hidden')
   switchContainer.classList.add('switch-container-hidden')
   closeSidebar()
+
+  //fill "statistics" page
+  let number = 1
+  for (let i = 0; i < cards[0].length; i++) {
+    for (let j = 0; j < cards[i + 1].length; j++) {
+      const currentWord = cards[i + 1][j].word
+
+      //"times" clicked in training mode
+      let timesClicked
+      if (localStorage.getItem(`${currentWord}-clicked`) === null) {
+        timesClicked = 0
+      } else {
+        timesClicked = localStorage.getItem(`${currentWord}-clicked`)
+      }
+
+      //"times" guessed in game mode
+      let timesGuessed
+      if (localStorage.getItem(`${currentWord}-guessed`) === null) {
+        timesGuessed = 0
+      } else {
+        timesGuessed = Number(localStorage.getItem(`${currentWord}-guessed`))
+      }
+
+      //"times" guessed correctly
+      let timesGuessedCorrectly
+      if (localStorage.getItem(`${currentWord}-guessed-correctly`) === null) {
+        timesGuessedCorrectly = 0
+      } else {
+        timesGuessedCorrectly = Number(
+          localStorage.getItem(`${currentWord}-guessed-correctly`)
+        )
+      }
+
+      //"times" guessed correctly
+      let timesGuessedWrong
+      if (localStorage.getItem(`${currentWord}-guessed-wrong`) === null) {
+        timesGuessedWrong = 0
+      } else {
+        timesGuessedWrong = Number(
+          localStorage.getItem(`${currentWord}-guessed-wrong`)
+        )
+      }
+
+      // % of correct answers
+      let percOfCorrect = (timesGuessedCorrectly / timesGuessed) * 100
+      if (timesGuessed == 0) percOfCorrect = 0
+
+      tableBody.innerHTML += `
+          <tr>
+            <td>${number}</td>
+            <td>${cards[0][i]}</td> 
+            <td>${currentWord}</td>
+            <td>${cards[i + 1][j].translation}</td>
+            <td>${timesClicked}</td>
+            <td>${timesGuessed}</td>
+            <td>${timesGuessedWrong}</td>
+            <td>${percOfCorrect}%</td>
+          </tr>`
+
+      number++
+    }
+  }
 })
