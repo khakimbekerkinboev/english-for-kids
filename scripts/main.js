@@ -34,7 +34,7 @@ menuItems.forEach((e) => {
   })
 })
 
-//active menu item when clicked in main page
+//active menu item when the category is clicked in main page
 function labelSidebarCategory() {
   const mainPageCategories = document.querySelectorAll('.category')
   mainPageCategories.forEach((card) => {
@@ -114,6 +114,7 @@ sidebarMenu.children[0].addEventListener('click', () => {
   closeSidebar()
   openCategoryPage()
   labelSidebarCategory()
+  leaveStatistics()
 })
 //when the logo is clicked
 const logo = document.querySelector('.logo')
@@ -128,6 +129,7 @@ logo.addEventListener('click', () => {
   fillMainPage()
   openCategoryPage()
   labelSidebarCategory()
+  leaveStatistics()
 })
 
 function fillMainPage() {
@@ -165,6 +167,7 @@ Array.from(sidebarCategories).forEach((e) => {
   e.addEventListener('click', () => {
     fillCategoryPage(e.innerHTML)
     closeSidebar()
+    leaveStatistics()
   })
 })
 
@@ -495,3 +498,24 @@ function addIcon(status) {
   newIcon.classList.add('fa-solid', 'fa-star', status)
   gameStatus.prepend(newIcon)
 }
+
+/////////////////////////////////////
+//Statistics page
+/////////////////////////////////////
+const statisticsSidebar = Array.from(menuItems)[menuItems.length - 1]
+const statistics = document.querySelector('.statistics')
+
+function leaveStatistics() {
+  if (!statistics.classList.contains('hidden')) {
+    page.classList.remove('hidden')
+    statistics.classList.add('hidden')
+    switchContainer.classList.remove('switch-container-hidden')
+  }
+}
+
+statisticsSidebar.addEventListener('click', () => {
+  page.classList.add('hidden')
+  statistics.classList.remove('hidden')
+  switchContainer.classList.add('switch-container-hidden')
+  closeSidebar()
+})
