@@ -510,9 +510,23 @@ Statistics page
 .statistics table th {
   text-align: left;
   padding: 1rem 0.5rem;
-  background-color: gray;
+  background-color: #808080;
   color: white;
   border: 1px solid #c0c0c0;
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+
+.statistics table th i {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.statistics table th:hover {
+  background-color: #707070;
 }
 
 .statistics th i {

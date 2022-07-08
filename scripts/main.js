@@ -560,6 +560,8 @@ function addIcon(status) {
 /////////////////////////////////////
 const statisticsSidebar = Array.from(menuItems)[menuItems.length - 1]
 const statistics = document.querySelector('.statistics')
+const tableHead = document.querySelector('.table-heads')
+const tableHeads = tableHead.children
 const tableBody = document.querySelector('.table-body')
 const resetBtn = document.querySelector('.reset-btn')
 
@@ -586,6 +588,7 @@ resetBtn.addEventListener('click', () => {
 })
 
 function fillTableBody() {
+  clearIcons()
   //empty the table body
   tableBody.innerHTML = ''
 
@@ -650,4 +653,99 @@ function fillTableBody() {
       number++
     }
   }
+}
+
+//sort the table columns
+Array.from(tableHeads).forEach((th) => {
+  th.addEventListener('click', (e) => {
+    const clickedHead = e.currentTarget
+    const headIndex = Array.from(clickedHead.parentElement.children).indexOf(
+      clickedHead
+    )
+
+    //clear all icons in the table head
+    clearIcons()
+
+    //run functions
+    if (clickedHead.classList.contains('asc')) {
+      clickedHead.classList.add('desc')
+      clickedHead.classList.remove('asc')
+      sortColumn(headIndex, 'desc')
+
+      clearIcons()
+      clickedHead.innerHTML += `<i class="fa-solid fa-sort-down"></i>`
+    } else if (clickedHead.classList.contains('desc')) {
+      clickedHead.classList.add('asc')
+      clickedHead.classList.remove('desc')
+      sortColumn(headIndex, 'asc')
+
+      clearIcons()
+      clickedHead.innerHTML += `<i class="fa-solid fa-sort-up"></i>`
+    } else {
+      clickedHead.classList.add('asc')
+      sortColumn(headIndex, 'asc')
+
+      clickedHead.innerHTML += `<i class="fa-solid fa-sort-up"></i>`
+    }
+  })
+})
+
+function sortColumn(columnIndex, order) {
+  const tableRows = tableBody.querySelectorAll('tr')
+
+  //sort
+  const sortedRows = [...tableRows].sort((a, b) => {
+    if (
+      !isNaN(a.children[columnIndex].innerHTML) &&
+      !isNaN(b.children[columnIndex].innerHTML)
+    ) {
+      if (order === 'asc') {
+        return (
+          a.children[columnIndex].textContent -
+          b.children[columnIndex].textContent
+        )
+      } else if (order === 'desc') {
+        return (
+          b.children[columnIndex].textContent -
+          a.children[columnIndex].textContent
+        )
+      }
+    } else if (
+      isNaN(a.children[columnIndex].innerHTML) &&
+      isNaN(b.children[columnIndex].innerHTML)
+    ) {
+      if (order == 'asc') {
+        return a.children[columnIndex].textContent.localeCompare(
+          b.children[columnIndex].textContent
+        )
+      } else if (order == 'desc') {
+        if (
+          a.children[columnIndex].textContent >
+          b.children[columnIndex].textContent
+        ) {
+          return -1
+        } else if (
+          b.children[columnIndex].textContent >
+          a.children[columnIndex].textContent
+        ) {
+          return 1
+        } else {
+          return 0
+        }
+      }
+    }
+  })
+
+  //fill the tableBody
+  tableBody.innerHTML = ''
+  sortedRows.forEach((e) => {
+    tableBody.innerHTML += e.outerHTML
+  })
+}
+
+//clear all icons
+function clearIcons() {
+  tableHead.querySelectorAll('i').forEach((icon) => {
+    icon.remove()
+  })
 }
