@@ -157,7 +157,6 @@ sidebar
 }
 
 .menu-active {
-  color: #000000;
   font-weight: 600;
 }
 
@@ -505,6 +504,7 @@ Statistics page
   width: 100%;
   border-collapse: collapse;
   font-size: 1.2rem;
+  padding: 2rem;
 }
 
 .statistics table th {
@@ -518,11 +518,36 @@ Statistics page
   position: relative;
 }
 
+.statistics caption {
+  width: fit-content;
+  margin-left: auto;
+}
+.remove-filter {
+  width: 2rem;
+  height: 1.9rem;
+  background-color: #808080;
+  border: 1px solid #c0c0c0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filter-inactive {
+  opacity: 0.4;
+}
+
+.statistics caption i {
+  font-size: 1.2rem;
+  color: white;
+}
+
 .statistics table th i {
   position: absolute;
   right: 0.5rem;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 1rem;
 }
 
 .statistics table th:hover {
@@ -536,4 +561,8 @@ Statistics page
 .statistics table td {
   padding: 0.2rem 0.5rem;
   border: 1px solid #c0c0c0;
+}
+
+.statistics table tr:nth-child(even) {
+  background-color: #d3d3d3;
 }

@@ -562,6 +562,7 @@ const statisticsSidebar = Array.from(menuItems)[menuItems.length - 1]
 const statistics = document.querySelector('.statistics')
 const tableHead = document.querySelector('.table-heads')
 const tableHeads = tableHead.children
+const removeFilter = document.querySelector('.remove-filter')
 const tableBody = document.querySelector('.table-body')
 const resetBtn = document.querySelector('.reset-btn')
 
@@ -587,8 +588,18 @@ resetBtn.addEventListener('click', () => {
   fillTableBody()
 })
 
-function fillTableBody() {
+removeFilter.addEventListener('click', () => {
   clearIcons()
+  fillTableBody()
+})
+
+function fillTableBody() {
+  //clear all icons in the table head
+  clearIcons()
+
+  //disable "remove filter" button
+  removeFilter.classList.add('filter-inactive')
+
   //empty the table body
   tableBody.innerHTML = ''
 
@@ -640,14 +651,14 @@ function fillTableBody() {
 
       tableBody.innerHTML += `
           <tr>
-            <td>${number}</td>
+            <td>${number}</td> 
             <td>${cards[0][i]}</td> 
             <td>${currentWord}</td>
             <td>${cards[i + 1][j].translation}</td>
             <td>${timesClicked}</td>
             <td>${timesGuessed}</td>
             <td>${timesGuessedWrong}</td>
-            <td>${percOfCorrect.toFixed(0)}%</td>
+            <td>${percOfCorrect.toFixed(0)}</td>
           </tr>`
 
       number++
@@ -663,29 +674,41 @@ Array.from(tableHeads).forEach((th) => {
       clickedHead
     )
 
+    //activate "remove filter" button
+    removeFilter.classList.remove('filter-inactive')
+
     //clear all icons in the table head
     clearIcons()
 
-    //run functions
+    //change
     if (clickedHead.classList.contains('asc')) {
       clickedHead.classList.add('desc')
       clickedHead.classList.remove('asc')
       sortColumn(headIndex, 'desc')
-
       clearIcons()
-      clickedHead.innerHTML += `<i class="fa-solid fa-sort-down"></i>`
+      if (headIndex == 1 || headIndex == 2 || headIndex == 3) {
+        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-z-a"></i>`
+      } else {
+        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-9-1"></i>`
+      }
     } else if (clickedHead.classList.contains('desc')) {
       clickedHead.classList.add('asc')
       clickedHead.classList.remove('desc')
       sortColumn(headIndex, 'asc')
-
       clearIcons()
-      clickedHead.innerHTML += `<i class="fa-solid fa-sort-up"></i>`
+      if (headIndex == 1 || headIndex == 2 || headIndex == 3) {
+        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-a-z"></i>`
+      } else {
+        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-1-9"></i>`
+      }
     } else {
       clickedHead.classList.add('asc')
       sortColumn(headIndex, 'asc')
-
-      clickedHead.innerHTML += `<i class="fa-solid fa-sort-up"></i>`
+      if (headIndex == 1 || headIndex == 2 || headIndex == 3) {
+        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-a-z"></i>`
+      } else {
+        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-1-9"></i>`
+      }
     }
   })
 })
@@ -743,7 +766,7 @@ function sortColumn(columnIndex, order) {
   })
 }
 
-//clear all icons
+//clear all icons in table head
 function clearIcons() {
   tableHead.querySelectorAll('i').forEach((icon) => {
     icon.remove()
