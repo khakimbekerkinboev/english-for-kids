@@ -561,12 +561,12 @@ function addIcon(status) {
 const statisticsSidebar = Array.from(menuItems)[menuItems.length - 1]
 const statistics = document.querySelector('.statistics')
 const tableBody = document.querySelector('.table-body')
+const resetBtn = document.querySelector('.reset-btn')
 
 function leaveStatistics() {
   if (!statistics.classList.contains('hidden')) {
     page.classList.remove('hidden')
     statistics.classList.add('hidden')
-    tableBody.innerHTML = ''
     switchContainer.classList.remove('switch-container-hidden')
   }
 }
@@ -577,8 +577,19 @@ statisticsSidebar.addEventListener('click', () => {
   statistics.classList.remove('hidden')
   switchContainer.classList.add('switch-container-hidden')
   closeSidebar()
+  fillTableBody()
+})
 
-  //fill "statistics" page
+resetBtn.addEventListener('click', () => {
+  localStorage.clear()
+  fillTableBody()
+})
+
+function fillTableBody() {
+  //empty the table body
+  tableBody.innerHTML = ''
+
+  //fill the table body
   let number = 1
   for (let i = 0; i < cards[0].length; i++) {
     for (let j = 0; j < cards[i + 1].length; j++) {
@@ -633,10 +644,10 @@ statisticsSidebar.addEventListener('click', () => {
             <td>${timesClicked}</td>
             <td>${timesGuessed}</td>
             <td>${timesGuessedWrong}</td>
-            <td>${percOfCorrect}%</td>
+            <td>${percOfCorrect.toFixed(0)}%</td>
           </tr>`
 
       number++
     }
   }
-})
+}

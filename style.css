@@ -63,6 +63,7 @@ header
 
 .switch-container-hidden {
   visibility: hidden;
+  opacity: 0;
 }
 
 .switch-container h3 {
