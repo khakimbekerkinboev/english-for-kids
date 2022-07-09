@@ -119,13 +119,6 @@ sidebarMenu.children[0].addEventListener('click', () => {
 //when the logo is clicked
 const logo = document.querySelector('.logo')
 logo.addEventListener('click', () => {
-  //clean other items
-  menuItems.forEach((each) => {
-    each.classList.remove('menu-active')
-  })
-
-  //activate main page
-  menuItems[0].classList.add('menu-active')
   fillMainPage()
   openCategoryPage()
   labelSidebarCategory()
@@ -154,6 +147,12 @@ function fillMainPage() {
     cards[0].splice(dwIndex, 1)
     cards.splice(dwIndex + 1, 1)
   }
+
+  //activate main page in sidebar
+  menuItems.forEach((each) => {
+    each.classList.remove('menu-active')
+  })
+  menuItems[0].classList.add('menu-active')
 
   //fill
   for (let i = 0; i < cards[0].length; i++) {
