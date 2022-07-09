@@ -470,6 +470,23 @@ Statistics page
   display: flex;
   column-gap: 1rem;
 }
+.message {
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f08080;
+  border-radius: 0.2rem;
+}
+.message-hidden {
+  display: none;
+}
+
+.message h3 {
+  font-size: 1rem;
+  color: #8b0000;
+}
 
 .difficult-btn {
   width: 14rem;

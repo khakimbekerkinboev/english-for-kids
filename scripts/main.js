@@ -147,6 +147,14 @@ function fillMainPage() {
     document.querySelector('.rotate-btn').remove()
   }
   gameStatus.innerHTML = ''
+
+  //remove "Difficult Words"
+  if (cards[0].includes('Difficult Words')) {
+    const dwIndex = cards[0].indexOf('Difficult Words')
+    cards[0].splice(dwIndex, 1)
+    cards.splice(dwIndex + 1, 1)
+  }
+
   //fill
   for (let i = 0; i < cards[0].length; i++) {
     pageCenter.innerHTML += `
@@ -213,6 +221,17 @@ function fillCategoryPage(categoryName) {
     document.querySelector('.rotate-btn').remove()
   }
   gameStatus.innerHTML = ''
+
+  //remove "Difficult Words"
+  if (
+    categoryName !== 'Difficult Words' &&
+    cards[0].includes('Difficult Words')
+  ) {
+    const dwIndex = cards[0].indexOf('Difficult Words')
+    cards[0].splice(dwIndex, 1)
+    cards.splice(dwIndex + 1, 1)
+  }
+
   //fill
   for (let i = 0; i < cards[index + 1].length; i++) {
     if (currentMode == 'train') {
@@ -564,6 +583,7 @@ const tableHead = document.querySelector('.table-heads')
 const tableHeads = tableHead.children
 const removeFilter = document.querySelector('.remove-filter')
 const tableBody = document.querySelector('.table-body')
+const difficultBtn = document.querySelector('.difficult-btn')
 const resetBtn = document.querySelector('.reset-btn')
 
 function leaveStatistics() {
@@ -581,6 +601,60 @@ statisticsSidebar.addEventListener('click', () => {
   switchContainer.classList.add('switch-container-hidden')
   closeSidebar()
   fillTableBody()
+})
+
+difficultBtn.addEventListener('click', () => {
+  const tableRows = tableBody.querySelectorAll('tr')
+
+  //sort rows in "Mistakes" column in an descending order
+  const sortedRows = [...tableRows].sort((a, b) => {
+    return b.children[6].textContent - a.children[6].textContent
+  })
+
+  //separate all the rows with non-zero mistakes
+  let difficultTableRows = sortedRows.filter((tr) => {
+    if (tr.children[6].textContent !== '0') return tr
+  })
+
+  if (difficultTableRows.length !== 0) {
+    //get the first 8 rows if it's > 8
+    if (difficultTableRows.length > 8) {
+      difficultTableRows = difficultTableRows.slice(0, 8)
+    }
+
+    let difficultWords = []
+    difficultTableRows.forEach((tr) => {
+      const word = tr.children[2].textContent
+      const wordTrans = tr.children[3].textContent
+
+      //create word's object
+      const wordObj = {}
+      wordObj.word = word
+      wordObj.translation = wordTrans
+      wordObj.image = `img/${word}.jpg`
+      wordObj.audioSrc = `audio/${word}.mp3`
+
+      //push it to difficult words
+      difficultWords.push(wordObj)
+    })
+
+    //place it in "cards"
+    cards[0].push('Difficult Words')
+    cards.push(difficultWords)
+
+    //leave "statistics"
+    leaveStatistics()
+
+    //open "Difficult Words"
+    fillCategoryPage('Difficult Words')
+  } else {
+    const message = document.querySelector('.message')
+    message.classList.remove('message-hidden')
+
+    setTimeout(() => {
+      message.classList.add('message-hidden')
+    }, 2000)
+  }
 })
 
 resetBtn.addEventListener('click', () => {
@@ -625,6 +699,16 @@ function fillTableBody() {
         timesGuessed = Number(localStorage.getItem(`${currentWord}-guessed`))
       }
 
+      // "times" guessed wrong
+      let timesGuessedWrong
+      if (localStorage.getItem(`${currentWord}-guessed-wrong`) === null) {
+        timesGuessedWrong = 0
+      } else {
+        timesGuessedWrong = Number(
+          localStorage.getItem(`${currentWord}-guessed-wrong`)
+        )
+      }
+
       //"times" guessed correctly
       let timesGuessedCorrectly
       if (localStorage.getItem(`${currentWord}-guessed-correctly`) === null) {
@@ -632,16 +716,6 @@ function fillTableBody() {
       } else {
         timesGuessedCorrectly = Number(
           localStorage.getItem(`${currentWord}-guessed-correctly`)
-        )
-      }
-
-      //"times" guessed correctly
-      let timesGuessedWrong
-      if (localStorage.getItem(`${currentWord}-guessed-wrong`) === null) {
-        timesGuessedWrong = 0
-      } else {
-        timesGuessedWrong = Number(
-          localStorage.getItem(`${currentWord}-guessed-wrong`)
         )
       }
 
@@ -686,29 +760,17 @@ Array.from(tableHeads).forEach((th) => {
       clickedHead.classList.remove('asc')
       sortColumn(headIndex, 'desc')
       clearIcons()
-      if (headIndex == 1 || headIndex == 2 || headIndex == 3) {
-        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-z-a"></i>`
-      } else {
-        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-9-1"></i>`
-      }
+      clickedHead.innerHTML += `<i class="fa-solid fa-sort-down"></i>`
     } else if (clickedHead.classList.contains('desc')) {
       clickedHead.classList.add('asc')
       clickedHead.classList.remove('desc')
       sortColumn(headIndex, 'asc')
       clearIcons()
-      if (headIndex == 1 || headIndex == 2 || headIndex == 3) {
-        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-a-z"></i>`
-      } else {
-        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-1-9"></i>`
-      }
+      clickedHead.innerHTML += `<i class="fa-solid fa-sort-up"></i>`
     } else {
       clickedHead.classList.add('asc')
       sortColumn(headIndex, 'asc')
-      if (headIndex == 1 || headIndex == 2 || headIndex == 3) {
-        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-a-z"></i>`
-      } else {
-        clickedHead.innerHTML += `<i class="fa-solid fa-arrow-down-1-9"></i>`
-      }
+      clickedHead.innerHTML += `<i class="fa-solid fa-sort-up"></i>`
     }
   })
 })
