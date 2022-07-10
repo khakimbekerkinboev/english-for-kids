@@ -584,6 +584,7 @@ const removeFilter = document.querySelector('.remove-filter')
 const tableBody = document.querySelector('.table-body')
 const difficultBtn = document.querySelector('.difficult-btn')
 const resetBtn = document.querySelector('.reset-btn')
+const emptyWindow = document.querySelector('.empty-window')
 
 function leaveStatistics() {
   if (!statistics.classList.contains('hidden')) {
@@ -647,12 +648,13 @@ difficultBtn.addEventListener('click', () => {
     //open "Difficult Words"
     fillCategoryPage('Difficult Words')
   } else {
-    const message = document.querySelector('.message')
-    message.classList.remove('message-hidden')
+    emptyWindow.classList.remove('hidden')
+    statistics.classList.add('hidden')
 
     setTimeout(() => {
-      message.classList.add('message-hidden')
-    }, 2000)
+      emptyWindow.classList.add('hidden')
+      statistics.classList.remove('hidden')
+    }, 3000)
   }
 })
 

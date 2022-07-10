@@ -158,7 +158,7 @@ sidebar
 .menu-active {
   background: #dfe0e5;
   padding: 0.5rem;
-  border-left: 2px solid #00f;
+  border-left: 2px solid #5bc236;
   color: #000000;
 }
 
@@ -472,30 +472,13 @@ Statistics page
   display: flex;
   column-gap: 1rem;
 }
-.message {
-  height: 2.5rem;
-  padding: 0 0.75rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f08080;
-  border-radius: 0.2rem;
-}
-.message-hidden {
-  display: none;
-}
-
-.message h3 {
-  font-size: 1rem;
-  color: #8b0000;
-}
 
 .difficult-btn {
-  width: 14rem;
+  width: 10.5rem;
 }
 
 .reset-btn {
-  width: 7rem;
+  width: 10.5rem;
 }
 
 .difficult-btn,
@@ -521,6 +504,7 @@ Statistics page
 
 .statistics table {
   width: 100%;
+  min-width: 1280px;
   border-collapse: collapse;
   font-size: 1.2rem;
   padding: 2rem;
@@ -584,4 +568,115 @@ Statistics page
 
 .statistics table tr:nth-child(even) {
   background-color: #d3d3d3;
+}
+
+.empty-window {
+  width: 95%;
+  margin: 0 auto;
+}
+.empty-window h2 {
+  font-size: 1.8rem;
+  margin: 3rem 0;
+}
+.empty-body {
+  min-height: 50vh;
+  position: relative;
+  border: 1px solid #707070;
+}
+
+.empty-body h1 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #a9a9a9;
+  font-size: 2rem;
+}
+
+.empty-body i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  color: #a9a9a9;
+}
+
+/* 
+==============================
+Responsiveness
+==============================
+*/
+
+@media (min-width: 320px) and (max-width: 575px) {
+  .header-center {
+    width: 90%;
+  }
+  .logo {
+    display: none;
+  }
+  .switch-btn {
+    top: 0.05rem;
+  }
+  .sidebar-menu {
+    margin-left: 5vw;
+  }
+  .page {
+    width: 90%;
+    max-width: 375px;
+  }
+  .page-top {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .game-status {
+    width: 100%;
+    padding: 0.25rem 0;
+  }
+  .page-center {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .statistics {
+    width: 90%;
+  }
+  .statistics-top {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .statistics-btns {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 1rem;
+  }
+
+  .success-window img,
+  .failure-window img {
+    width: 250px;
+  }
+
+  .failure-window h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .logo {
+    display: none;
+  }
+  .switch-btn {
+    top: 0.05rem;
+    left: 0.075rem;
+  }
+  .page-center {
+    grid-template-columns: repeat(2, calc(50% - 1rem));
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .page-center {
+    grid-template-columns: repeat(3, calc(33.3333% - 1.3333rem));
+  }
 }
