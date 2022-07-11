@@ -1,4 +1,4 @@
-import cards from '../assets/cards.js'
+import cards from './cards.js'
 let currentMode = 'train'
 let currentPage
 
@@ -159,7 +159,7 @@ function fillMainPage() {
     pageCenter.innerHTML += `
         <!-- single card -->
         <div class="category">
-          <img src="./assets/${cards[i + 1][0].image}" alt="" />
+          <img src="././${cards[i + 1][0].image}" alt="" />
           <h3>${cards[0][i]}</h3>
           <p><i class="fa-regular fa-images"></i> ${cards[i + 1].length}</p>
         </div>
@@ -239,22 +239,16 @@ function fillCategoryPage(categoryName) {
         <div class="single-card">
           <div class="single-card-inner">
             <div class="single-card-front">
-              <img src="./assets/${
-                cards[index + 1][randomCards[i]].image
-              }" alt="">
+              <img src="././${cards[index + 1][randomCards[i]].image}" alt="">
               <h3 class = 'word'>${cards[index + 1][randomCards[i]].word}</h3>
               <i class="fa-solid fa-rotate translate-btn"></i>
             </div>
             <div class="hidden-card">
-              <img src="./assets/${
-                cards[index + 1][randomCards[i]].image
-              }" alt="">
+              <img src="././${cards[index + 1][randomCards[i]].image}" alt="">
               <h3>${cards[index + 1][randomCards[i]].word}</h3>
             </div>
             <div class="single-card-back">
-              <img src="./assets/${
-                cards[index + 1][randomCards[i]].image
-              }" alt="">
+              <img src="././${cards[index + 1][randomCards[i]].image}" alt="">
               <h3>${cards[index + 1][randomCards[i]].translation}</h3>
             </div>
           </div>
@@ -265,9 +259,7 @@ function fillCategoryPage(categoryName) {
       pageCenter.innerHTML += `
         <!-- play card -->
         <div class="play-card">
-              <img src="./assets/${
-                cards[index + 1][randomCards[i]].image
-              }" alt="">  
+              <img src="././${cards[index + 1][randomCards[i]].image}" alt="">  
               <h3>${cards[index + 1][randomCards[i]].word}</h3>   
         </div>
         <!-- end of play card -->
@@ -286,7 +278,7 @@ function playSound() {
   Array.from(cardFronts).forEach((cardFront) => {
     cardFront.addEventListener('click', (clickedFront) => {
       const word = clickedFront.currentTarget.querySelector('.word').innerHTML
-      const sound = new Audio(`./assets/audio/${word}.mp3`)
+      const sound = new Audio(`././audio/${word}.mp3`)
       let timesClicked
       if (localStorage.getItem(`${word}-clicked`) === null) {
         timesClicked = 0
@@ -392,7 +384,7 @@ startBtn.addEventListener('click', () => {
   //play sound
   let currentCard = currentCategory[randomIndexes[nth]]
 
-  let sound = new Audio(`./assets/${currentCard.audioSrc}`)
+  let sound = new Audio(`././${currentCard.audioSrc}`)
   sound.play()
 
   //change "start" button to "repeat" icon
@@ -460,7 +452,7 @@ startBtn.addEventListener('click', () => {
           addIcon('correct')
 
           //play the "correct" sound
-          new Audio('./assets/audio/correct.mp3').play()
+          new Audio('././audio/correct.mp3').play()
 
           //next card
           nth++
@@ -469,8 +461,8 @@ startBtn.addEventListener('click', () => {
           if (nth == currentCategory.length) {
             //select
             const numOfMistakes = gameStatus.querySelectorAll('.wrong').length
-            const successSound = new Audio('./assets/audio/success.mp3')
-            const failureSound = new Audio('./assets/audio/failure.mp3')
+            const successSound = new Audio('././audio/success.mp3')
+            const failureSound = new Audio('././audio/failure.mp3')
             const gameOverWindow = document.querySelector('.game-over-window')
             const successWindow = document.querySelector('.success-window')
             const failureWindow = document.querySelector('.failure-window')
@@ -535,14 +527,14 @@ startBtn.addEventListener('click', () => {
           //play the next sound after 2.5 seconds
           if (nth < currentCategory.length) {
             currentCard = currentCategory[randomIndexes[nth]]
-            sound = new Audio(`./assets/${currentCard.audioSrc}`)
+            sound = new Audio(`././${currentCard.audioSrc}`)
             setTimeout(() => {
               if (currentMode == 'play') sound.play()
             }, 2500)
           }
         } else {
           //"error" sound
-          new Audio('./assets/audio/error.mp3').play()
+          new Audio('././audio/error.mp3').play()
           //add the "wrong" icon
           addIcon('wrong')
           //count guessed wrong

@@ -417,7 +417,7 @@ Game Over
   z-index: 5;
   width: 100vw;
   height: 100vh;
-  background: url(./assets/img/game-over.jpg) no-repeat center center fixed;
+  background: url(/src/img/game-over.jpg) no-repeat center center fixed;
   background-size: cover;
 }
 
