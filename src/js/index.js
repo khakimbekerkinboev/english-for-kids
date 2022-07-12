@@ -1,16 +1,17 @@
 import cards from './cards.js'
+
 let currentMode = 'train'
 let currentPage
 
-////////////////////////
-//Sidebar
-////////////////////////
+/// /////////////////////
+// Sidebar
+/// /////////////////////
 const burgerBtn = document.querySelector('.burger')
 const sidebar = document.querySelector('.sidebar')
 const sidebarMenu = document.querySelector('.sidebar-menu')
 const sidebarBackground = document.querySelector('.sidebar-background')
 
-//fill the sidebar
+// fill the sidebar
 sidebarMenu.innerHTML = `<li>Main</li>`
 for (let i = 0; i < cards[0].length; i++) {
   sidebarMenu.innerHTML += `<li class="sidebar-category">${cards[0][i]}</li>`
@@ -19,28 +20,28 @@ sidebarMenu.innerHTML += `<li>Statistics</li>`
 const sidebarCategories = document.querySelectorAll('.sidebar-category')
 const menuItems = sidebarMenu.querySelectorAll('li')
 
-//activate main page in sidebar when the page loaded
+// activate main page in sidebar when the page loaded
 menuItems[0].classList.add('menu-active')
 
-//active menu item when clicked in sidebar
+// active menu item when clicked in sidebar
 menuItems.forEach((e) => {
   e.addEventListener('click', (clicked) => {
-    //clean other items
+    // clean other items
     menuItems.forEach((each) => {
       each.classList.remove('menu-active')
     })
-    //activate clicked item
+    // activate clicked item
     clicked.currentTarget.classList.add('menu-active')
   })
 })
 
-//active menu item when the category is clicked in main page
+// active menu item when the category is clicked in main page
 function labelSidebarCategory() {
   const mainPageCategories = document.querySelectorAll('.category')
   mainPageCategories.forEach((card) => {
     card.addEventListener('click', (e) => {
       const clickedCategoryName = e.currentTarget.children[1].innerHTML
-      //clean other items
+      // clean other items
       menuItems.forEach((e) => {
         e.classList.remove('menu-active')
         if (e.innerHTML == clickedCategoryName) {
@@ -51,7 +52,7 @@ function labelSidebarCategory() {
   })
 }
 
-//open and close sidebar
+// open and close sidebar
 burgerBtn.addEventListener('click', () => {
   if (sidebar.classList.contains('sidebar-hidden')) {
     openSidebar()
@@ -64,7 +65,7 @@ sidebarBackground.addEventListener('click', () => {
   closeSidebar()
 })
 
-//open function
+// open function
 function openSidebar() {
   burgerBtn.style.transform = 'rotate(90deg)'
   sidebar.classList.remove('sidebar-hidden')
@@ -73,7 +74,7 @@ function openSidebar() {
 }
 import { disableScrolling } from './controlScroll.js'
 
-//close function
+// close function
 function closeSidebar() {
   burgerBtn.style.transform = 'rotate(0deg)'
   sidebar.classList.add('sidebar-hidden')
@@ -82,23 +83,23 @@ function closeSidebar() {
 }
 import { enableScrolling } from './controlScroll.js'
 
-////////////////////////
-//Pages
-////////////////////////
+/// /////////////////////
+// Pages
+/// /////////////////////
 const page = document.querySelector('.page')
 const pageTitle = document.querySelector('.page-title')
 const pageCenter = document.querySelector('.page-center')
 
-//////////////////main page//////////////////
+/// ///////////////main page//////////////////
 
-//when the page is loaded
+// when the page is loaded
 window.addEventListener('DOMContentLoaded', () => {
   fillMainPage()
   openCategoryPage()
   labelSidebarCategory()
 })
 
-//the Main page is clicked in the sidebar
+// the Main page is clicked in the sidebar
 sidebarMenu.children[0].addEventListener('click', () => {
   fillMainPage()
   closeSidebar()
@@ -106,7 +107,7 @@ sidebarMenu.children[0].addEventListener('click', () => {
   labelSidebarCategory()
   leaveStatistics()
 })
-//when the logo is clicked
+// when the logo is clicked
 const logo = document.querySelector('.logo')
 logo.addEventListener('click', () => {
   fillMainPage()
@@ -116,13 +117,13 @@ logo.addEventListener('click', () => {
 })
 
 function fillMainPage() {
-  //change current page to main
+  // change current page to main
   currentPage = 'main'
-  //change title
+  // change title
   pageTitle.innerHTML = 'Categories:'
-  //empty the secion
+  // empty the secion
   pageCenter.innerHTML = ''
-  //move to the main page in play mode
+  // move to the main page in play mode
   nth = 0
   randomIndexes = undefined
   if (currentMode == 'play') startBtn.classList.add('hidden')
@@ -131,20 +132,20 @@ function fillMainPage() {
   }
   gameStatus.innerHTML = ''
 
-  //remove "Difficult Words"
+  // remove "Difficult Words"
   if (cards[0].includes('Difficult Words')) {
     const dwIndex = cards[0].indexOf('Difficult Words')
     cards[0].splice(dwIndex, 1)
     cards.splice(dwIndex + 1, 1)
   }
 
-  //activate main page in sidebar
+  // activate main page in sidebar
   menuItems.forEach((each) => {
     each.classList.remove('menu-active')
   })
   menuItems[0].classList.add('menu-active')
 
-  //fill
+  // fill
   for (let i = 0; i < cards[0].length; i++) {
     pageCenter.innerHTML += `
         <!-- single card -->
@@ -157,9 +158,9 @@ function fillMainPage() {
   }
 }
 
-//////////////////category page//////////////////
+/// ///////////////category page//////////////////
 
-//when the category in the sidebar is clicked
+// when the category in the sidebar is clicked
 Array.from(sidebarCategories).forEach((e) => {
   e.addEventListener('click', () => {
     fillCategoryPage(e.innerHTML)
@@ -168,7 +169,7 @@ Array.from(sidebarCategories).forEach((e) => {
   })
 })
 
-//when the category card in the main page is clicked
+// when the category card in the main page is clicked
 function openCategoryPage() {
   const mainPageCategories = document.querySelectorAll('.category')
   mainPageCategories.forEach((card) => {
@@ -183,17 +184,17 @@ function openCategoryPage() {
 import { arrayRandom } from './arrayRandom.js'
 
 function fillCategoryPage(categoryName) {
-  //change page
+  // change page
   currentPage = categoryName
-  //change title
+  // change title
   pageTitle.innerHTML = categoryName
-  //empty the section
+  // empty the section
   pageCenter.innerHTML = ''
-  //index
+  // index
   const index = cards[0].indexOf(categoryName)
-  //randomize cards
+  // randomize cards
   const randomCards = arrayRandom(cards[index + 1].length)
-  //move to another category page in play mode
+  // move to another category page in play mode
   nth = 0
   randomIndexes = undefined
   if (currentMode == 'play') startBtn.classList.remove('hidden')
@@ -202,7 +203,7 @@ function fillCategoryPage(categoryName) {
   }
   gameStatus.innerHTML = ''
 
-  //remove "Difficult Words"
+  // remove "Difficult Words"
   if (
     categoryName !== 'Difficult Words' &&
     cards[0].includes('Difficult Words')
@@ -212,7 +213,7 @@ function fillCategoryPage(categoryName) {
     cards.splice(dwIndex + 1, 1)
   }
 
-  //fill
+  // fill
   for (let i = 0; i < cards[index + 1].length; i++) {
     if (currentMode == 'train') {
       pageCenter.innerHTML += `
@@ -247,13 +248,13 @@ function fillCategoryPage(categoryName) {
     `
     }
   }
-  //play sound
+  // play sound
   playSound()
-  //flip card
+  // flip card
   flipCard()
 }
 
-//play sound function
+// play sound function
 function playSound() {
   const cardFronts = document.querySelectorAll('.single-card-front')
   Array.from(cardFronts).forEach((cardFront) => {
@@ -267,44 +268,44 @@ function playSound() {
         timesClicked = Number(localStorage.getItem(`${word}-clicked`))
       }
 
-      //play sound
+      // play sound
       if (!clickedFront.target.classList.contains('translate-btn')) {
         sound.play()
       }
 
-      //update item clicks in localStorage
+      // update item clicks in localStorage
       localStorage.setItem(`${word}-clicked`, `${timesClicked + 1}`)
     })
   })
 }
 
-//flip the card
+// flip the card
 function flipCard() {
   const translateBtns = document.querySelectorAll('.translate-btn')
   Array.from(translateBtns).forEach((btn) => {
     btn.addEventListener('click', () => {
       const singleCardInner = btn.parentElement.parentElement
-      //rotate button
+      // rotate button
       btn.style.transform = 'rotate(180deg)'
 
-      //flip the card
+      // flip the card
       singleCardInner.style.transform = 'rotateY(180deg)'
 
-      //flip the card back
+      // flip the card back
       singleCardInner.addEventListener('mouseleave', () => {
         singleCardInner.style.transform = 'rotateY(0deg)'
-        //rotate button back
+        // rotate button back
         btn.style.transform = 'rotate(0deg)'
       })
     })
   })
 }
 
-////////////////////////
-//Switch button
-////////////////////////
+/// /////////////////////
+// Switch button
+/// /////////////////////
 
-//button
+// button
 const switchContainer = document.querySelector('.switch-container')
 const play = switchContainer.children[0]
 const switchBtn = document.querySelector('.switch-btn')
@@ -312,7 +313,7 @@ const train = switchContainer.children[2]
 const startBtn = document.querySelector('.start-btn')
 const gameStatus = document.querySelector('.game-status')
 
-//click the switch button
+// click the switch button
 switchBtn.addEventListener('click', () => {
   if (currentMode == 'train') {
     switchStyleToPlay()
@@ -325,7 +326,7 @@ switchBtn.addEventListener('click', () => {
   }
 })
 
-//change style to play
+// change style to play
 function switchStyleToPlay() {
   switchBtn.classList.add('switch-btn-moves-right')
   play.classList.remove('hidden')
@@ -334,7 +335,7 @@ function switchStyleToPlay() {
   if (currentPage !== 'main') startBtn.classList.remove('hidden')
 }
 
-//change style to train
+// change style to train
 function switchStyleToTrain() {
   switchBtn.classList.remove('switch-btn-moves-right')
   play.classList.add('hidden')
@@ -347,38 +348,38 @@ function switchStyleToTrain() {
   gameStatus.innerHTML = ''
 }
 
-/////////////////////////////////////
-//After the "start" button is clicked
-/////////////////////////////////////
+/// //////////////////////////////////
+// After the "start" button is clicked
+/// //////////////////////////////////
 
 let nth = 0
 let randomIndexes
 
 startBtn.addEventListener('click', () => {
-  //all cards in the category
+  // all cards in the category
   const currentCategory = cards[cards[0].indexOf(currentPage) + 1]
 
-  //randomize card order
+  // randomize card order
   if (typeof randomIndexes == 'undefined') {
     randomIndexes = arrayRandom(cards[cards[0].indexOf(currentPage) + 1].length)
   }
 
-  //play sound
+  // play sound
   let currentCard = currentCategory[randomIndexes[nth]]
 
   let sound = new Audio(`././${currentCard.audioSrc}`)
   sound.play()
 
-  //change "start" button to "repeat" icon
+  // change "start" button to "repeat" icon
   startBtn.classList.add('hidden')
 
-  //create
+  // create
   const rotateBtn = document.createElement('button')
   rotateBtn.classList.add('rotate-btn')
   rotateBtn.innerHTML = `<i class="fa-solid fa-rotate-right"></i>`
   page.append(rotateBtn)
 
-  //assign
+  // assign
   rotateBtn.addEventListener('click', () => {
     sound.play()
   })
@@ -389,14 +390,14 @@ startBtn.addEventListener('click', () => {
     rotateBtn.classList.remove('rotate-icon')
   })
 
-  //click play card
+  // click play card
   const playCards = document.querySelectorAll('.play-card')
   playCards.forEach((playCard) => {
     playCard.addEventListener('click', (e) => {
       const clickedCard = e.currentTarget
       const clickedWord = clickedCard.children[1].innerHTML
 
-      //count guess
+      // count guess
       let timesGuessed
       if (localStorage.getItem(`${currentCard.word}-guessed`) === null) {
         timesGuessed = 0
@@ -407,10 +408,10 @@ startBtn.addEventListener('click', () => {
       }
       localStorage.setItem(`${currentCard.word}-guessed`, `${timesGuessed + 1}`)
 
-      //check correct/wrong
+      // check correct/wrong
       if (!clickedCard.classList.contains('play-card-inactive')) {
         if (clickedWord == currentCard.word) {
-          //count guessed correctly
+          // count guessed correctly
           let timesGuessedCorrectly
           if (
             localStorage.getItem(`${currentCard.word}-guessed-correctly`) ===
@@ -427,21 +428,21 @@ startBtn.addEventListener('click', () => {
             `${timesGuessedCorrectly + 1}`
           )
 
-          //make the card inactive
+          // make the card inactive
           clickedCard.classList.add('play-card-inactive')
 
-          //add the "correct" icon
+          // add the "correct" icon
           addIcon('correct')
 
-          //play the "correct" sound
+          // play the "correct" sound
           new Audio('././audio/correct.mp3').play()
 
-          //next card
+          // next card
           nth++
 
-          //when the game is over
+          // when the game is over
           if (nth == currentCategory.length) {
-            //select
+            // select
             const numOfMistakes = gameStatus.querySelectorAll('.wrong').length
             const successSound = new Audio('././audio/success.mp3')
             const failureSound = new Audio('././audio/failure.mp3')
@@ -451,19 +452,19 @@ startBtn.addEventListener('click', () => {
             const mistakes = document.querySelector('.mistakes')
 
             if (numOfMistakes == 0) {
-              //show "success" window
+              // show "success" window
               gameOverWindow.classList.remove('hidden')
               successWindow.classList.remove('hidden')
 
-              //play "success" sound
+              // play "success" sound
               successSound.play()
 
-              //disable scrolling
+              // disable scrolling
               disableScrolling()
 
-              //wait for 3 secs
+              // wait for 3 secs
               setTimeout(() => {
-                //open main page
+                // open main page
                 enableScrolling()
                 fillMainPage()
                 openCategoryPage()
@@ -471,27 +472,27 @@ startBtn.addEventListener('click', () => {
                 switchStyleToTrain()
                 currentMode = 'train'
 
-                //hide window
+                // hide window
                 gameOverWindow.classList.add('hidden')
                 successWindow.classList.add('hidden')
               }, 3000)
             } else {
-              //show "failure" window
+              // show "failure" window
               gameOverWindow.classList.remove('hidden')
               failureWindow.classList.remove('hidden')
 
-              //insert the number of mistakes
+              // insert the number of mistakes
               mistakes.innerHTML = numOfMistakes
 
-              //play "failure" sound
+              // play "failure" sound
               failureSound.play()
 
-              //disable scrolling
+              // disable scrolling
               disableScrolling()
 
-              //wait for 3 secs
+              // wait for 3 secs
               setTimeout(() => {
-                //open main page
+                // open main page
                 enableScrolling()
                 fillMainPage()
                 openCategoryPage()
@@ -499,14 +500,14 @@ startBtn.addEventListener('click', () => {
                 switchStyleToTrain()
                 currentMode = 'train'
 
-                //hide window
+                // hide window
                 gameOverWindow.classList.add('hidden')
                 failureWindow.classList.add('hidden')
               }, 3000)
             }
           }
 
-          //play the next sound after 2.5 seconds
+          // play the next sound after 2.5 seconds
           if (nth < currentCategory.length) {
             currentCard = currentCategory[randomIndexes[nth]]
             sound = new Audio(`././${currentCard.audioSrc}`)
@@ -515,11 +516,11 @@ startBtn.addEventListener('click', () => {
             }, 2500)
           }
         } else {
-          //"error" sound
+          // "error" sound
           new Audio('././audio/error.mp3').play()
-          //add the "wrong" icon
+          // add the "wrong" icon
           addIcon('wrong')
-          //count guessed wrong
+          // count guessed wrong
           let timesGuessedWrong
           if (
             localStorage.getItem(`${currentCard.word}-guessed-wrong`) === null
@@ -540,16 +541,16 @@ startBtn.addEventListener('click', () => {
   })
 })
 
-//add/show a new icon according to the answer status
+// add/show a new icon according to the answer status
 function addIcon(status) {
   const newIcon = document.createElement('i')
   newIcon.classList.add('fa-solid', 'fa-star', status)
   gameStatus.prepend(newIcon)
 }
 
-/////////////////////////////////////
-//Statistics page
-/////////////////////////////////////
+/// //////////////////////////////////
+// Statistics page
+/// //////////////////////////////////
 const statisticsSidebar = Array.from(menuItems)[menuItems.length - 1]
 const statistics = document.querySelector('.statistics')
 const tableHead = document.querySelector('.table-heads')
@@ -569,7 +570,7 @@ function leaveStatistics() {
 }
 
 statisticsSidebar.addEventListener('click', () => {
-  //open "statistics" page
+  // open "statistics" page
   page.classList.add('hidden')
   statistics.classList.remove('hidden')
   switchContainer.classList.add('switch-container-hidden')
@@ -580,18 +581,18 @@ statisticsSidebar.addEventListener('click', () => {
 difficultBtn.addEventListener('click', () => {
   const tableRows = tableBody.querySelectorAll('tr')
 
-  //sort rows in "Mistakes" column in an descending order
+  // sort rows in "Mistakes" column in an descending order
   const sortedRows = [...tableRows].sort((a, b) => {
     return b.children[6].textContent - a.children[6].textContent
   })
 
-  //separate all the rows with non-zero mistakes
+  // separate all the rows with non-zero mistakes
   let difficultTableRows = sortedRows.filter((tr) => {
     if (tr.children[6].textContent !== '0') return tr
   })
 
   if (difficultTableRows.length !== 0) {
-    //get the first 8 rows if it's > 8
+    // get the first 8 rows if it's > 8
     if (difficultTableRows.length > 8) {
       difficultTableRows = difficultTableRows.slice(0, 8)
     }
@@ -601,25 +602,25 @@ difficultBtn.addEventListener('click', () => {
       const word = tr.children[2].textContent
       const wordTrans = tr.children[3].textContent
 
-      //create word's object
+      // create word's object
       const wordObj = {}
       wordObj.word = word
       wordObj.translation = wordTrans
       wordObj.image = `img/${word}.jpg`
       wordObj.audioSrc = `audio/${word}.mp3`
 
-      //push it to difficult words
+      // push it to difficult words
       difficultWords.push(wordObj)
     })
 
-    //place it in "cards"
+    // place it in "cards"
     cards[0].push('Difficult Words')
     cards.push(difficultWords)
 
-    //leave "statistics"
+    // leave "statistics"
     leaveStatistics()
 
-    //open "Difficult Words"
+    // open "Difficult Words"
     fillCategoryPage('Difficult Words')
   } else {
     emptyWindow.classList.remove('hidden')
@@ -643,22 +644,22 @@ removeFilter.addEventListener('click', () => {
 })
 
 function fillTableBody() {
-  //clear all icons in the table head
+  // clear all icons in the table head
   clearIcons()
 
-  //disable "remove filter" button
+  // disable "remove filter" button
   removeFilter.classList.add('filter-inactive')
 
-  //empty the table body
+  // empty the table body
   tableBody.innerHTML = ''
 
-  //fill the table body
+  // fill the table body
   let number = 1
   for (let i = 0; i < cards[0].length; i++) {
     for (let j = 0; j < cards[i + 1].length; j++) {
       const currentWord = cards[i + 1][j].word
 
-      //"times" clicked in training mode
+      // "times" clicked in training mode
       let timesClicked
       if (localStorage.getItem(`${currentWord}-clicked`) === null) {
         timesClicked = 0
@@ -666,7 +667,7 @@ function fillTableBody() {
         timesClicked = localStorage.getItem(`${currentWord}-clicked`)
       }
 
-      //"times" guessed in game mode
+      // "times" guessed in game mode
       let timesGuessed
       if (localStorage.getItem(`${currentWord}-guessed`) === null) {
         timesGuessed = 0
@@ -684,7 +685,7 @@ function fillTableBody() {
         )
       }
 
-      //"times" guessed correctly
+      // "times" guessed correctly
       let timesGuessedCorrectly
       if (localStorage.getItem(`${currentWord}-guessed-correctly`) === null) {
         timesGuessedCorrectly = 0
@@ -715,7 +716,7 @@ function fillTableBody() {
   }
 }
 
-//sort the table columns
+// sort the table columns
 Array.from(tableHeads).forEach((th) => {
   th.addEventListener('click', (e) => {
     const clickedHead = e.currentTarget
@@ -723,13 +724,13 @@ Array.from(tableHeads).forEach((th) => {
       clickedHead
     )
 
-    //activate "remove filter" button
+    // activate "remove filter" button
     removeFilter.classList.remove('filter-inactive')
 
-    //clear all icons in the table head
+    // clear all icons in the table head
     clearIcons()
 
-    //change
+    // change
     if (clickedHead.classList.contains('asc')) {
       clickedHead.classList.add('desc')
       clickedHead.classList.remove('asc')
@@ -750,10 +751,10 @@ Array.from(tableHeads).forEach((th) => {
   })
 })
 
-//sort column
+// sort column
 import { sortColumn } from './sortColumn.js'
 
-//clear all icons in table head
+// clear all icons in table head
 function clearIcons() {
   tableHead.querySelectorAll('i').forEach((icon) => {
     icon.remove()
