@@ -71,14 +71,7 @@ function openSidebar() {
   sidebarBackground.classList.remove('sidebar-background-hidden')
   disableScrolling()
 }
-
-function disableScrolling() {
-  var x = window.scrollX
-  var y = window.scrollY
-  window.onscroll = function () {
-    window.scrollTo(x, y)
-  }
-}
+import { disableScrolling } from './controlScroll.js'
 
 //close function
 function closeSidebar() {
@@ -87,10 +80,7 @@ function closeSidebar() {
   sidebarBackground.classList.add('sidebar-background-hidden')
   enableScrolling()
 }
-
-function enableScrolling() {
-  window.onscroll = function () {}
-}
+import { enableScrolling } from './controlScroll.js'
 
 ////////////////////////
 //Pages
@@ -189,17 +179,8 @@ function openCategoryPage() {
   })
 }
 
-//randomize indexes of any array by length
-function arrayRandom(length) {
-  let arr = []
-  while (arr.length < length) {
-    const newNumber = Math.floor(Math.random() * length)
-    if (!arr.includes(newNumber)) {
-      arr.push(newNumber)
-    }
-  }
-  return arr
-}
+// //randomize indexes of any array by length
+import { arrayRandom } from './arrayRandom.js'
 
 function fillCategoryPage(categoryName) {
   //change page
@@ -369,6 +350,7 @@ function switchStyleToTrain() {
 /////////////////////////////////////
 //After the "start" button is clicked
 /////////////////////////////////////
+
 let nth = 0
 let randomIndexes
 
@@ -573,7 +555,7 @@ const statistics = document.querySelector('.statistics')
 const tableHead = document.querySelector('.table-heads')
 const tableHeads = tableHead.children
 const removeFilter = document.querySelector('.remove-filter')
-const tableBody = document.querySelector('.table-body')
+import { tableBody } from './sortColumn.js'
 const difficultBtn = document.querySelector('.difficult-btn')
 const resetBtn = document.querySelector('.reset-btn')
 const emptyWindow = document.querySelector('.empty-window')
@@ -768,58 +750,8 @@ Array.from(tableHeads).forEach((th) => {
   })
 })
 
-function sortColumn(columnIndex, order) {
-  const tableRows = tableBody.querySelectorAll('tr')
-
-  //sort
-  const sortedRows = [...tableRows].sort((a, b) => {
-    if (
-      !isNaN(a.children[columnIndex].innerHTML) &&
-      !isNaN(b.children[columnIndex].innerHTML)
-    ) {
-      if (order === 'asc') {
-        return (
-          a.children[columnIndex].textContent -
-          b.children[columnIndex].textContent
-        )
-      } else if (order === 'desc') {
-        return (
-          b.children[columnIndex].textContent -
-          a.children[columnIndex].textContent
-        )
-      }
-    } else if (
-      isNaN(a.children[columnIndex].innerHTML) &&
-      isNaN(b.children[columnIndex].innerHTML)
-    ) {
-      if (order == 'asc') {
-        return a.children[columnIndex].textContent.localeCompare(
-          b.children[columnIndex].textContent
-        )
-      } else if (order == 'desc') {
-        if (
-          a.children[columnIndex].textContent >
-          b.children[columnIndex].textContent
-        ) {
-          return -1
-        } else if (
-          b.children[columnIndex].textContent >
-          a.children[columnIndex].textContent
-        ) {
-          return 1
-        } else {
-          return 0
-        }
-      }
-    }
-  })
-
-  //fill the tableBody
-  tableBody.innerHTML = ''
-  sortedRows.forEach((e) => {
-    tableBody.innerHTML += e.outerHTML
-  })
-}
+//sort column
+import { sortColumn } from './sortColumn.js'
 
 //clear all icons in table head
 function clearIcons() {

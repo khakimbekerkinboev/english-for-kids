@@ -673,6 +673,15 @@ Responsiveness
   .page-center {
     grid-template-columns: repeat(2, calc(50% - 1rem));
   }
+
+  .success-window img,
+  .failure-window img {
+    width: 300px;
+  }
+
+  .failure-window h1 {
+    font-size: 3rem;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
